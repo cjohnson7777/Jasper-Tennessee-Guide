@@ -1,0 +1,28 @@
+kind = "web"
+previewPath = "/"
+title = "Jasper, Tennessee"
+description = "A one-page introduction to Jasper, Tennessee, with local food, quick facts, state leadership, a clickable state bird, and a simple personal likes list."
+version = "1.0.0"
+id = "artifacts/jasper-tennessee-guide"
+router = "path"
+
+[[services]]
+name = "web"
+paths = [ "/" ]
+localPort = 25014
+
+[services.development]
+run = "pnpm --filter @workspace/jasper-tennessee-guide run dev"
+
+[services.production]
+build = [ "pnpm", "--filter", "@workspace/jasper-tennessee-guide", "run", "build" ]
+serve = "static"
+publicDir = "artifacts/jasper-tennessee-guide/dist/public"
+
+[[services.production.rewrites]]
+from = "/*"
+to = "/index.html"
+
+[services.env]
+PORT = "25014"
+BASE_PATH = "/"
