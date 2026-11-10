@@ -35,7 +35,7 @@ body::before {
 ::selection { background: var(--sun); color: var(--ink); }
 a { color: inherit; }
 button, input { font: inherit; }
-button:focus-visible, input:focus-visible, a:focus-visible {
+button:focus-visible, input:focus-visible, textarea:focus-visible, a:focus-visible {
   outline: 3px solid var(--rust);
   outline-offset: 4px;
 }
@@ -256,6 +256,196 @@ h2 { margin-bottom: 0; font-size: clamp(3.2rem, 6vw, 5.8rem); letter-spacing: -.
 .food-note { display: inline-block; margin-top: 1rem; color: var(--rust); font-size: .7rem; font-weight: 700; letter-spacing: .04em; }
 .food-note span { margin-right: .5rem; }
 
+.dish-gallery-section {
+  position: relative;
+  background: var(--paper);
+}
+.dish-gallery-section::before {
+  content: "";
+  position: absolute;
+  inset: 16px;
+  border: 1px solid rgba(148,31,53,.17);
+  pointer-events: none;
+}
+.dish-gallery-intro, .dish-gallery-layout { position: relative; }
+.dish-gallery-intro { max-width: 720px; }
+.dish-gallery-intro h2 { margin-bottom: 1.15rem; }
+.dish-gallery-intro > p:last-child {
+  max-width: 570px;
+  margin-bottom: 0;
+  color: var(--muted);
+  font-size: .9rem;
+  line-height: 1.8;
+}
+.dish-gallery-layout {
+  display: grid;
+  grid-template-columns: minmax(250px, .75fr) minmax(0, 1.25fr);
+  align-items: start;
+  gap: clamp(30px, 6vw, 82px);
+  margin-top: 48px;
+}
+.dish-upload-form {
+  padding: 26px;
+  border: 1px solid var(--line);
+  background: var(--paper-deep);
+  box-shadow: 8px 8px 0 rgba(34,58,48,.08);
+}
+.upload-form-title {
+  margin-bottom: 22px;
+  color: var(--rust);
+  font-size: .62rem;
+  font-weight: 700;
+  letter-spacing: .15em;
+}
+.dish-upload-form label {
+  display: block;
+  margin: 17px 0 8px;
+  font-size: .72rem;
+  font-weight: 700;
+}
+.dish-upload-form label span { color: var(--muted); font-weight: 400; }
+.dish-upload-form input[type="text"], .dish-upload-form textarea {
+  width: 100%;
+  min-width: 0;
+  padding: 12px 13px;
+  border: 1px solid #c9bda7;
+  border-radius: 0;
+  background: #f8f2e7;
+  color: var(--ink);
+  font-size: .82rem;
+}
+.dish-upload-form textarea { resize: vertical; line-height: 1.55; }
+.dish-upload-form input[type="file"] {
+  width: 100%;
+  padding: 10px;
+  border: 1px dashed #b9ab93;
+  background: #f8f2e7;
+  color: var(--ink);
+  font-size: .68rem;
+}
+.dish-upload-form input[type="file"]::file-selector-button {
+  margin-right: 10px;
+  padding: 8px 10px;
+  border: 0;
+  background: var(--forest);
+  color: var(--paper);
+  cursor: pointer;
+  font: inherit;
+}
+.upload-help {
+  margin: 8px 0 0;
+  color: var(--muted);
+  font-size: .64rem;
+  line-height: 1.6;
+}
+.dish-upload-button {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 22px;
+  padding: 14px 16px;
+  border: 1px solid var(--rust);
+  background: var(--rust);
+  color: #fffaf1;
+  cursor: pointer;
+  font-size: .68rem;
+  font-weight: 700;
+  letter-spacing: .1em;
+  text-transform: uppercase;
+  transition: background .2s ease, color .2s ease, transform .2s ease;
+}
+.dish-upload-button:hover:not(:disabled) {
+  transform: translateY(-2px);
+  background: var(--forest);
+  border-color: var(--forest);
+}
+.dish-upload-button:disabled { cursor: wait; opacity: .72; }
+.dish-upload-button span { font-size: 1rem; }
+.upload-status {
+  min-height: 1.4em;
+  margin: 12px 0 0;
+  color: var(--muted);
+  font-size: .68rem;
+  line-height: 1.5;
+}
+.upload-status[data-state="error"] { color: #8a1e32; }
+.upload-status[data-state="success"] { color: #315e43; }
+.dish-gallery-panel { min-width: 0; }
+.dish-gallery-toolbar {
+  min-height: 28px;
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: 1rem;
+  margin-bottom: 13px;
+}
+.dish-gallery-toolbar .eyebrow { margin: 0; }
+.dish-gallery-count {
+  margin: 0;
+  color: var(--muted);
+  font-size: .64rem;
+  text-align: right;
+}
+.dish-gallery-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 16px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.dish-gallery-card {
+  min-width: 0;
+  overflow: hidden;
+  border: 1px solid var(--line);
+  background: #faf6ed;
+  box-shadow: 4px 4px 0 rgba(34,58,48,.06);
+}
+.dish-gallery-image {
+  width: 100%;
+  aspect-ratio: 4 / 3;
+  display: block;
+  object-fit: cover;
+  background: #e6dfd0;
+  border-bottom: 3px solid var(--forest);
+}
+.dish-gallery-details { padding: 14px 15px 15px; }
+.dish-gallery-details h3 {
+  margin: 0;
+  font-family: var(--display);
+  font-size: 1.2rem;
+  font-weight: 400;
+  line-height: 1.2;
+  overflow-wrap: anywhere;
+}
+.dish-gallery-caption {
+  margin: 8px 0 12px;
+  color: #59675d;
+  font-size: .72rem;
+  line-height: 1.6;
+  overflow-wrap: anywhere;
+}
+.dish-gallery-date {
+  display: block;
+  margin-top: 13px;
+  color: var(--rust);
+  font-size: .57rem;
+  font-weight: 700;
+  letter-spacing: .11em;
+  text-transform: uppercase;
+}
+.dish-gallery-empty {
+  grid-column: 1 / -1;
+  padding: 34px 22px;
+  border: 1px dashed #c9bda7;
+  color: var(--muted);
+  font-family: var(--display);
+  font-size: 1.15rem;
+  line-height: 1.55;
+  text-align: center;
+}
+
 .leader-section { display: grid; grid-template-columns: 37% 1fr; gap: 8%; align-items: center; }
 .leader-label h2 { font-size: clamp(3rem, 5vw, 4.8rem); }
 .leader-card {
@@ -357,6 +547,12 @@ h2 { margin-bottom: 0; font-size: clamp(3.2rem, 6vw, 5.8rem); letter-spacing: -.
   .food-section { grid-template-columns: 1fr; }
   .food-image-wrap { min-height: 350px; }
   .food-copy { padding: 65px 9vw 72px; }
+  .dish-gallery-layout { grid-template-columns: 1fr; gap: 35px; margin-top: 35px; }
+  .dish-upload-form { padding: 22px; }
+  .dish-gallery-grid { grid-template-columns: 1fr; }
+  .dish-gallery-section::before { inset: 8px; }
+  .dish-gallery-toolbar { align-items: flex-start; flex-direction: column; gap: 7px; }
+  .dish-gallery-count { text-align: left; }
   .leader-section { grid-template-columns: 1fr; gap: 35px; }
   .leader-card { min-height: 140px; padding: 20px; gap: 15px; flex-wrap: wrap; }
   .leader-initial { width: 52px; height: 52px; }

@@ -70,6 +70,50 @@
         </div>
       </section>
 
+      <section class="dish-gallery-section section-pad" id="dish-gallery" aria-labelledby="dish-gallery-title">
+        <div class="dish-gallery-intro">
+          <p class="eyebrow">Around the Jasper table <span class="section-number">COMMUNITY GALLERY</span></p>
+          <h2 id="dish-gallery-title">Share a <em>plate.</em></h2>
+          <p>Show us your favorite Jasper barbecue. Add a photo and a few words; it will appear at the top of the gallery.</p>
+        </div>
+
+        <div class="dish-gallery-layout">
+          <form class="dish-upload-form" id="dish-upload-form">
+            <p class="upload-form-title">ADD YOUR PHOTO</p>
+
+            <label for="dish-title">Photo title</label>
+            <input id="dish-title" name="title" type="text" maxlength="120" required placeholder="Smoky ribs at the picnic table">
+
+            <label for="dish-caption">Caption <span>(optional)</span></label>
+            <textarea id="dish-caption" name="caption" rows="3" maxlength="500" placeholder="Where you found it, or what makes it special"></textarea>
+
+            <label for="dish-image">Choose a photo</label>
+            <input
+              id="dish-image"
+              name="image"
+              type="file"
+              accept="image/jpeg,image/png,image/webp,.jpg,.jpeg,.png,.webp"
+              required
+              aria-describedby="dish-image-help"
+            >
+            <p class="upload-help" id="dish-image-help">JPEG, PNG, or WebP · up to 3 MB. Photos are resized to 1280 px before upload.</p>
+
+            <button class="dish-upload-button" id="dish-upload-button" type="submit">
+              Share your photo <span aria-hidden="true">↗</span>
+            </button>
+            <p class="upload-status" id="dish-upload-status" role="status" aria-live="polite"></p>
+          </form>
+
+          <div class="dish-gallery-panel">
+            <div class="dish-gallery-toolbar">
+              <p class="eyebrow">From local tables</p>
+              <p class="dish-gallery-count" id="dish-gallery-count">Loading photos…</p>
+            </div>
+            <ul class="dish-gallery-grid" id="dish-gallery-list" aria-label="Visitor photos of Jasper barbecue"></ul>
+          </div>
+        </div>
+      </section>
+
       <section class="leader-section section-pad" aria-labelledby="leader-title">
         <div class="leader-label">
           <p class="eyebrow">Statewide, from Nashville <span class="section-number">03 / 04</span></p>

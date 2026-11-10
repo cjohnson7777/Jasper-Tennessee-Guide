@@ -10,6 +10,8 @@ servers:
 tags:
   - name: health
     description: Health operations
+  - name: dishes
+    description: Shared dish photos
 paths:
   /healthz:
     get:
@@ -24,6 +26,81 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/HealthStatus"
+  /dishes:
+    get:
+      operationId: listDishes
+      tags: [dishes]
+      summary: List shared dish photos
+      responses:
+        "200":
+          description: Dish photos, newest first, without embedded image data
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/DishPhoto"
+    post:
+      operationId: createDish
+      tags: [dishes]
+      summary: Save a dish photo
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/DishPhotoInput"
+      responses:
+        "201":
+          description: The saved dish photo
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/DishPhoto"
+        "400":
+          description: Invalid title, caption, or image data
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+        "413":
+          description: The image or request body is too large
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+  /dishes/{id}/image:
+    get:
+      operationId: getDishImage
+      tags: [dishes]
+      summary: Get the original bytes for a dish photo
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+            minimum: 1
+      responses:
+        "200":
+          description: Image bytes with the stored image content type
+          content:
+            application/octet-stream:
+              schema:
+                type: string
+                format: binary
+        "400":
+          description: Invalid dish photo ID
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+        "404":
+          description: Dish photo not found
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
 components:
   schemas:
     HealthStatus:
@@ -33,4 +110,45 @@ components:
           type: string
       required:
         - status
+    ErrorResponse:
+      type: object
+      required: [error]
+      properties:
+        error:
+          type: string
+    DishPhotoInput:
+      type: object
+      required: [title, image]
+      properties:
+        title:
+          type: string
+          minLength: 1
+          maxLength: 120
+        caption:
+          type: string
+          maxLength: 500
+        image:
+          type: string
+          description: A JPEG, PNG, or WebP image encoded as a base64 data URL.
+    DishPhoto:
+      type: object
+      required: [id, title, caption, mimeType, inspectorNote, createdAt, imageUrl]
+      properties:
+        id:
+          type: integer
+        title:
+          type: string
+        caption:
+          type: string
+        mimeType:
+          type: string
+          enum: [image/jpeg, image/png, image/webp]
+        inspectorNote:
+          type: [string, "null"]
+        createdAt:
+          type: string
+          format: date-time
+        imageUrl:
+          type: string
+          format: uri-reference
 
